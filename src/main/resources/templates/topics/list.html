@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Document</title>
+</head>
+<body>
+    <ul th:each="topic : ${topics}">
+        <li th:text="${topic.name}"></li>
+    </ul>
+    <form method="post">
+        <input type="text" name="name"/>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
