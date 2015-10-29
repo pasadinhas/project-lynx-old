@@ -13,3 +13,9 @@ gradle-app.setting
 # IDE
 .idea
 
+#local libs
+.jar
+
+#iml
+.iml
+

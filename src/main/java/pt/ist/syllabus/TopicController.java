@@ -1,42 +1,1 @@
-package pt.ist.syllabus;
-
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Collection;
-
-@RestController
-@RequestMapping("/topic")
-public class TopicController implements InitializingBean {
-
-    private TopicRepository topicRepository;
-
-    @Autowired
-    public TopicController(TopicRepository topicRepository) {
-        this.topicRepository = topicRepository;
-    }
-
-    @RequestMapping
-    public Collection<Topic> listAll(Model model) {
-        //model.addAttribute("topics", topicRepository.findAll());
-        //return "topics/list";
-        return topicRepository.findAll();
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
-    public String createTopic(Topic topic) {
-        topicRepository.save(topic);
-        return "redirect:/topic";
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        Topic xpto = new Topic();
-        xpto.setName("XPTO");
-        topicRepository.save(xpto);
-    }
-}
+package pt.ist.syllabus;import org.springframework.beans.factory.InitializingBean;import org.springframework.beans.factory.annotation.Autowired;import org.springframework.ui.Model;import org.springframework.web.bind.annotation.RequestMapping;import org.springframework.web.bind.annotation.RequestMethod;import org.springframework.web.bind.annotation.RestController;import java.util.Collection;@RestController@RequestMapping("/topic")class TopicController implements InitializingBean {    private TopicRepository topicRepository;    private SyllabusRepository syllabusRepository;    @Autowired    public TopicController(TopicRepository topicRepository, SyllabusRepository syllabusRepository) {        this.topicRepository = topicRepository;        this.syllabusRepository = syllabusRepository;    }    @RequestMapping    public Collection<Syllabus> listAll(Model model) {        //model.addAttribute("topics", topicRepository.findAll());        //return "topics/list";        return syllabusRepository.findAll();    }    @RequestMapping(method = RequestMethod.POST)    public String createTopic(Topic topic) {        topicRepository.save(topic);        return "redirect:/topic";    }    @Override    public void afterPropertiesSet() throws Exception {        Topic xpto = new Topic();        xpto.setName("XPTO");        topicRepository.save(xpto);        Topic subTopic = new Topic();        subTopic.setName("subXPTO");        //subTopic.setParent(xpto);        xpto.getSubtopics().add(subTopic);        topicRepository.save(subTopic);        topicRepository.save(xpto);        Syllabus syllabus = new Syllabus();        syllabus.setName("PO");        syllabus.getTopics().add(xpto);        syllabus.getTopics().add(subTopic);        syllabusRepository.save(syllabus);        topicRepository.save(subTopic);        //topicRepository.save(xpto);    }}
