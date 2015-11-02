@@ -23,11 +23,16 @@ public class Topic {
     @OneToMany
     private Set<Topic> subtopics;
 
+    @OneToMany
+    private Set<Event> events;
+
+
     //@ManyToOne
     //private Topic parent;
 
     public Topic() {
         subtopics = new HashSet<Topic>();
+        events = new HashSet<Event>();
     }
 
     public Long getId() {
@@ -47,6 +52,8 @@ public class Topic {
     public Set<Topic> getSubtopics() {
         return subtopics;
     }
+
+    public Set<Event> getEvents() { return events; }
 
 
     //public Syllabus getSyllabus() { return syllabus; }
